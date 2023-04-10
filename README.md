@@ -16,8 +16,7 @@ To broaden this scope and include web2 actions, we propose the Gateway, a servic
 - TypeScript
 
 ### 📚 State Management
-- Redux
-- Redux Toolkit
+- Recoil
 
 ### 🚀 Data Fetching
 - Apollo Client with GraphQL or React Query
