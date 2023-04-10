@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import ComponentLayout from "./ComponentLayout";
 import Link from "next/link";
 import Image from "next/image";
 import { ButtonLayout } from "@/components/common/Button";
+import { sliceAddress } from "@/core/utils/numerFormatter";
 
 const Header = () => {
+  const [address, setAddress] = useState<string | null>(null);
+
+  const handleConnectWallet = async () => {
+    const { keplr } = window;
+    if (!keplr) {
+      alert("Please install keplr extension");
+      return;
+    }
+
+    const chainId = "cosmoshub-4";
+    await keplr.enable(chainId);
+
+    const offlineSigner = keplr.getOfflineSigner(chainId);
+    const accounts = await offlineSigner.getAccounts();
+
+    setAddress(accounts[0].address);
+  };
+
   return (
     <ComponentLayout>
       <div className="p-5 flex justify-between">
@@ -14,12 +33,21 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center">
-          <ButtonLayout className="mr-3">
-            <p className="text-white">UPLOAD FILES</p>
-          </ButtonLayout>
-          <ButtonLayout>
-            <p className="text-white">CONNECT WALLET</p>
-          </ButtonLayout>
+          {address ? (
+            <>
+              <ButtonLayout className="mr-5">
+                <p className="text-white">UPLOAD FILES</p>
+              </ButtonLayout>
+              <div className="text-white">
+                <b>ADDRESS</b>
+                <p className="text-sm">: {sliceAddress(address, 6)}</p>
+              </div>
+            </>
+          ) : (
+            <ButtonLayout onClick={handleConnectWallet}>
+              <p className="text-white">CONNECT WALLET</p>
+            </ButtonLayout>
+          )}
         </div>
       </div>
     </ComponentLayout>
