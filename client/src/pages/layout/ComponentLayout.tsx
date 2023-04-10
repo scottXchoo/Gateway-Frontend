@@ -6,7 +6,6 @@ type LayoutProps = {
 };
 
 const Container = tw.div`
-    border-2 border-black
     my-3
   `;
 

@@ -8,7 +8,8 @@ type LayoutProps = {
 };
 
 const Container = tw.div`
-    
+    px-5
+    py-3
 `;
 
 const DefaultLayout = ({ children }: LayoutProps) => {
