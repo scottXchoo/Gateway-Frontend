@@ -4,9 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { ButtonLayout } from "@/components/common/Button";
 import { sliceAddress } from "@/core/utils/numerFormatter";
+import { useRecoilState } from "recoil";
+import { isConnectWalletAtom } from "@/core/state/globalState";
 
 const Header = () => {
   const [address, setAddress] = useState<string | null>(null);
+  const [isConnectWallet, setConnectWallet] =
+    useRecoilState(isConnectWalletAtom);
 
   const handleConnectWallet = async () => {
     const { keplr } = window;
@@ -22,6 +26,7 @@ const Header = () => {
     const accounts = await offlineSigner.getAccounts();
 
     setAddress(accounts[0].address);
+    setConnectWallet(true);
   };
 
   return (
@@ -33,7 +38,7 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center">
-          {address ? (
+          {isConnectWallet && !!address ? (
             <>
               <ButtonLayout className="mr-5">
                 <p className="text-white">UPLOAD FILES</p>
