@@ -27,3 +27,7 @@ To broaden this scope and include web2 actions, we propose the Gateway, a servic
 
 ### 📦 Package Manager
 - Yarn Berry
+
+### Library
+- React Hook Form
+- @headlessui/react
