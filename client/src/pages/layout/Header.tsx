@@ -4,13 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { ButtonLayout } from "@/components/common/Button";
 import { sliceAddress } from "@/core/utils/numerFormatter";
-import { useRecoilState } from "recoil";
-import { isConnectWalletAtom } from "@/core/state/globalState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isConnectWalletAtom, isModalOpenAtom } from "@/core/state/globalState";
+import UploadFileModal from "@/components/common/UploadFileModal";
 
 const Header = () => {
   const [address, setAddress] = useState<string | null>(null);
   const [isConnectWallet, setConnectWallet] =
     useRecoilState(isConnectWalletAtom);
+  const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
 
   const handleConnectWallet = async () => {
     const { keplr } = window;
@@ -29,8 +31,13 @@ const Header = () => {
     setConnectWallet(true);
   };
 
+  const handleUploadFiles = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <ComponentLayout>
+      <UploadFileModal />
       <div className="p-5 flex justify-between">
         <Link href="/" className="flex items-center">
           <Image src="/gateway_logo.png" alt="LOGO" width={50} height={50} />
@@ -40,7 +47,7 @@ const Header = () => {
         <div className="flex items-center">
           {isConnectWallet && !!address ? (
             <>
-              <ButtonLayout className="mr-5">
+              <ButtonLayout onClick={handleUploadFiles} className="mr-5">
                 <p className="text-white">UPLOAD FILES</p>
               </ButtonLayout>
               <div className="text-white">
