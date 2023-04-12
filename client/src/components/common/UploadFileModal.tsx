@@ -2,9 +2,14 @@ import { isModalOpenAtom } from "@/core/state/globalState";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { useRecoilState } from "recoil";
+import UploadFileForm from "./UploadFileForm";
 
 const UploadFileModal = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenAtom);
+
+  const handleSave = (values: FormData) => {
+    console.log({ values });
+  };
 
   return (
     <Transition.Root show={isModalOpen} as={Fragment}>
@@ -27,19 +32,7 @@ const UploadFileModal = () => {
                       UPLOAD FILES
                     </Dialog.Title>
                     <div className="mt-5">
-                      <div>
-                        <p>📸 Image</p>
-                        <input
-                          type="file"
-                          accept="image/png, image/jpeg, image/jpg"
-                          onChange={(e) => {
-                            console.log(e.target.files);
-                          }}
-                        />
-                      </div>
-                      <div>📸 Image</div>
-                      <div>📸 Image</div>
-                      <div>📸 Image</div>
+                      <UploadFileForm onSave={handleSave} />
                     </div>
                   </div>
                 </div>
