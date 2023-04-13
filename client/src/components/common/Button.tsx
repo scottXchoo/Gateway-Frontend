@@ -4,7 +4,7 @@ export const ButtonLayout = tw.button`
     border-[1px] border-white
     rounded-[5px]
     px-4 py-2
-    hover:bg-gradient-to-r from-orange-50 to-gray-150
+    hover:bg-gradient-to-r from-orange-400 to-orange-800
 `;
 
 export const UploadButton = () => {};
