@@ -33,7 +33,7 @@ const About = () => {
             alt="LOGO"
             width={100}
             height={100}
-            className="block mx-auto mt-4 md:mt-6 md:mb-10 mb-4 shadow-lg rounded-full h-40 w-36"
+            className="block mx-auto mt-4 md:mt-6 md:mb-10 mb-4 shadow-lg rounded-full h-36 w-32"
           />
         </div>
         <div className="w-full md:px-4 px-10 pb-0 mb-8 max-w-2xl mx-auto mt-4">

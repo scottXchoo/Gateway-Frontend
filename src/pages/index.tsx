@@ -4,7 +4,6 @@ import Hero from "@/components/Hero";
 import Main from "@/components/Main";
 import { useRecoilValue } from "recoil";
 import { isConnectWalletAtom } from "@/core/state/globalState";
-import ConnectWalletAlert from "@/components/common/ConnectWalletAlert";
 
 export default function Home() {
   const isConnectWallet = useRecoilValue(isConnectWalletAtom);
@@ -21,7 +20,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      {isConnectWallet ? <Main /> : <ConnectWalletAlert />}
+      {isConnectWallet && <Main />}
       <About />
     </>
   );

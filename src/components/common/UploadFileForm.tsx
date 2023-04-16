@@ -122,7 +122,8 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
           </InputBox>
           {errors.githubLink && (
             <ErrorMessage>
-              <span className="font-semibold">Oh, snap!</span> Error Message
+              <span className="font-semibold">Oh, snap!</span> Please write{" "}
+              <b>https://github.com</b>
             </ErrorMessage>
           )}
         </InputContainer>
@@ -130,9 +131,7 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
           <SubmitButton
             type="submit"
             className={`${
-              errorState
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-orange-500 hover:bg-orange-600"
+              errorState && "bg-gray-200 hover:bg-gray-200 cursor-not-allowed"
             }}`}
           >
             SUBMIT
@@ -152,6 +151,8 @@ const SubmitButton = tw.button`
   py-2
   px-4
   rounded-[5px]
+  bg-orange-500
+  hover:bg-orange-600
 `;
 const InputContainer = tw.div`
   border-b border-gray-100 mb-3

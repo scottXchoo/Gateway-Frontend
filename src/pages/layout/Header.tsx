@@ -7,9 +7,10 @@ import { sliceAddress } from "@/core/utils/numerFormatter";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isConnectWalletAtom, isModalOpenAtom } from "@/core/state/globalState";
 import UploadFileModal from "@/components/common/UploadFileModal";
+import CopyIcon from "@/components/common/CopyIcon";
 
 const Header = () => {
-  const [address, setAddress] = useState<string | null>(null);
+  const [address, setAddress] = useState<string>("");
   const [isConnectWallet, setConnectWallet] =
     useRecoilState(isConnectWalletAtom);
   const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
@@ -35,8 +36,10 @@ const Header = () => {
     setIsModalOpen(true);
   };
 
+  console.log("address", address);
+
   return (
-    <ComponentLayout className="px-5">
+    <ComponentLayout className="md:px-5">
       <UploadFileModal />
       <div className="p-5 flex justify-between">
         <Link href="/" className="flex items-center">
@@ -44,15 +47,17 @@ const Header = () => {
           <p className="text-white font-bold text-2xl ml-2">GATEWAY</p>
         </Link>
 
-        <div className="flex items-center">
+        <div className="md:flex items-center">
           {isConnectWallet && !!address ? (
             <>
-              <ButtonLayout onClick={handleUploadFiles} className="mr-5">
+              <ButtonLayout onClick={handleUploadFiles} className="md:mr-5">
                 <p className="text-white">UPLOAD FILES</p>
               </ButtonLayout>
               <div className="text-white">
-                <b>ADDRESS</b>
-                <p className="text-sm">: {sliceAddress(address, 6)}</p>
+                <b className="hidden md:block">ADDRESS</b>
+                <p className="text-sm">
+                  {sliceAddress(address, 6)} <CopyIcon text={address} />
+                </p>
               </div>
             </>
           ) : (
