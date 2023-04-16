@@ -5,20 +5,20 @@ const Hero = () => {
   return (
     <ComponentLayout>
       <div
-        className="w-screen h-[550px] bg-cover bg-center"
+        className="w-screen md:h-[550px] bg-cover bg-center"
         style={{
           backgroundImage: "url('/landscape.png')",
         }}
       >
-        <div className="mx-auto text-center px-8 lg:pt-32 lg:pb-12 md:pt-16 md:pb-6 pt-12 pb-8 md:mb-4">
-          <span className="text-orange-600 font-semibold text-base lg:text-2xl md:text-xl">
+        <div className="mx-auto text-center px-8 md:pt-32 md:pb-12 pt-20 pb-8">
+          <span className="text-orange-500 font-semibold text-base md:text-2xl">
             🏆 Rewards for Everything 🚀
           </span>
           <h1 className=" font-heading text-white mt-4 mb-6 text-5xl md:text-7xl">
             GATEWAY
-            <p className="text-2xl md:text-4xl text-orange-400">on Archway</p>
+            <p className="text-xl md:text-3xl text-orange-400">on Archway</p>
           </h1>
-          <div className="lg:text-lg md:text-md mb-10 text-white mx-4 md:mx-12 lg:mx-32">
+          <div className="md:text-lg mb-10 text-white mx-4 md:mx-32">
             <p>Bridging Web2 and Web3 to empower developers and</p>
             <p>accelerate the growth of the decentralized applications.</p>
           </div>
