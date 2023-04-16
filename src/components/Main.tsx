@@ -4,9 +4,7 @@ import React from "react";
 const Main = () => {
   return (
     <ComponentLayout>
-      <div className="p-60">
-        <p className="text-orange-50 text-center">Main</p>
-      </div>
+      <div className="p-60 bg-orange-50"></div>
     </ComponentLayout>
   );
 };

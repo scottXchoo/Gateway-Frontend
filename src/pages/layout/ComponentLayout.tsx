@@ -7,7 +7,7 @@ type LayoutProps = {
 };
 
 const Container = tw.div`
-    my-3
+  w-full
   `;
 
 const ComponentLayout = ({ children, className }: LayoutProps) => {
