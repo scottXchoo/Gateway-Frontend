@@ -48,15 +48,17 @@ const ProjectCard = () => {
           key={item.uniqueId}
           className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl bg-white text-center shadow"
         >
-          <div className="flex flex-1 flex-col p-6">
+          <div className="flex flex-1 flex-col p-4">
             <Image
               className="mx-auto flex-shrink-0 rounded-full"
               src={`/tiny_cute_3d_car(${item.uniqueId}).png`}
-              width={200}
-              height={200}
+              width={250}
+              height={250}
               alt="projects"
             />
-            <InputHeader>{item.title}</InputHeader>
+            <InputHeader>
+              #{item.uniqueId}. {item.title}
+            </InputHeader>
             <p className="text-sm text-gray-500">{item.description}</p>
 
             <div className="rounded-2xl bg-gray-900 text-center shadow px-6 mt-3">
