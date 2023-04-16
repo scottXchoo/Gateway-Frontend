@@ -4,6 +4,16 @@ import Hero from "@/components/Hero";
 import Main from "@/components/Main";
 import { useRecoilValue } from "recoil";
 import { isConnectWalletAtom } from "@/core/state/globalState";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { Coin } from "@cosmjs/proto-signing";
+
+export type GetInfoType = {
+  getInfo: (
+    client: SigningCosmWasmClient | null,
+    address: string,
+    balance: Coin | null
+  ) => void;
+};
 
 export default function Home() {
   const isConnectWallet = useRecoilValue(isConnectWalletAtom);
