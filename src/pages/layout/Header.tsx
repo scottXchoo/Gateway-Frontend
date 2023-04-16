@@ -53,7 +53,7 @@ const Header = () => {
         </ButtonLayout>
         <div className="text-white mr-2">
           <b className="hidden md:block">BALANCE</b>
-          <p className="text-sm mt-1">{balance?.amount} ARCH</p>
+          <p className="text-sm">{balance?.amount} ARCH</p>
         </div>
         <div className="text-white">
           <b className="hidden md:block">ADDRESS</b>

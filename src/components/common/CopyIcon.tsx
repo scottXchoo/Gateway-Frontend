@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 type CopyIconProps = {
@@ -15,7 +13,7 @@ const CopyIcon = ({ text }: CopyIconProps) => {
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
-    }, 2000);
+    }, 1500);
   };
 
   return (
@@ -23,7 +21,7 @@ const CopyIcon = ({ text }: CopyIconProps) => {
       {isCopied ? (
         <p className="text-green-500 text-xs font-bold">Copied</p>
       ) : (
-        <Image alt="copy" src="/copy.svg" width={20} height={20} />
+        <Image alt="copy" src="/copy.svg" width={12} height={12} />
       )}
     </button>
   );
