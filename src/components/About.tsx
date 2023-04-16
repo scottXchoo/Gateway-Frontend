@@ -21,7 +21,7 @@ const About = () => {
 
   return (
     <ComponentLayout>
-      <div className="md:pb-20 pb-8">
+      <div className="md:pb-12 pb-8">
         <div
           className=" w-full bg-center bg-contain bg-no-repeat"
           style={{
@@ -71,7 +71,7 @@ const About = () => {
                     height={30}
                     src={item.image}
                     alt="LOGO"
-                    className="mr-3"
+                    className="mr-3 hover:opacity-60"
                   />
                 </Link>
               ))}

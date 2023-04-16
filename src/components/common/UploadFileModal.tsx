@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { useRecoilState } from "recoil";
 import UploadFileForm from "./UploadFileForm";
+import Image from "next/image";
 
 const UploadFileModal = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenAtom);
@@ -27,13 +28,21 @@ const UploadFileModal = () => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-[5px] bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-4">
                 <div>
-                  <div className="text-center">
-                    <Dialog.Title as="h2" className="text-lg font-semibold">
+                  <div className="flex justify-between">
+                    <Dialog.Title as="h2" className="text-lg font-bold">
                       UPLOAD FILES
                     </Dialog.Title>
-                    <div className="mt-5">
-                      <UploadFileForm onSave={handleSave} />
-                    </div>
+                    <Image
+                      alt="X Circle"
+                      className="cursor-pointer opacity-70"
+                      height={18}
+                      width={18}
+                      src="/x-circle.svg"
+                      onClick={() => setIsModalOpen(false)}
+                    />
+                  </div>
+                  <div className="mt-5">
+                    <UploadFileForm onSave={handleSave} />
                   </div>
                 </div>
               </Dialog.Panel>
