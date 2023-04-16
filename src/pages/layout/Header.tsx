@@ -36,7 +36,7 @@ const Header = () => {
   };
 
   return (
-    <ComponentLayout>
+    <ComponentLayout className="px-5">
       <UploadFileModal />
       <div className="p-5 flex justify-between">
         <Link href="/" className="flex items-center">
