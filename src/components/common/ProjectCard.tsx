@@ -120,7 +120,7 @@ const SubmitButton = tw.button`
 const InputContainer = tw.div`
   border-b border-gray-100 mb-3
 `;
-const InputHeader = tw.p`
+const InputHeader = tw.div`
   text-md font-semibold leading-7 text-gray-800 mt-3
 `;
 const InputBox = tw.div`
