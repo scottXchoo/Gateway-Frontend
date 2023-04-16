@@ -5,7 +5,6 @@ import { z } from "zod";
 import tw from "tailwind-styled-components";
 
 export interface FormData {
-  title: string;
   githubLink: string;
   walletAddress: string;
   description: string;
@@ -17,7 +16,6 @@ type UploadFileFormProps = {
 };
 
 const schema = z.object({
-  title: z.string().min(3).nonempty(),
   githubLink: z.string().url().nonempty(),
   walletAddress: z.string().nonempty(),
   description: z.string().nonempty(),
@@ -38,34 +36,11 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
   };
 
   const errorState =
-    errors.title ||
-    errors.githubLink ||
-    errors.walletAddress ||
-    errors.description;
+    errors.githubLink || errors.walletAddress || errors.description;
 
   return (
     <form onSubmit={handleSubmit(handleSave)}>
       <div className="text-left">
-        <InputContainer>
-          <InputHeader>🌟 Title</InputHeader>
-          <InputBox>
-            <Input
-              placeholder="Write your Title here"
-              {...register("title", {
-                required: true,
-                minLength: {
-                  value: 3,
-                  message: "Title must be at least 3 characters",
-                },
-              })}
-            />
-          </InputBox>
-          {errors.title && (
-            <ErrorMessage>
-              <span className="font-semibold">Oh, snap!</span> Error Message
-            </ErrorMessage>
-          )}
-        </InputContainer>
         <InputContainer>
           <InputHeader>📝 Description</InputHeader>
           <InputBox>
@@ -158,7 +133,7 @@ const InputContainer = tw.div`
   border-b border-gray-100 mb-3
 `;
 const InputHeader = tw.h2`
-  text-lg font-semibold leading-7 text-gray-800
+  text-md font-semibold leading-7 text-gray-800
 `;
 const InputBox = tw.div`
   my-2 flex rounded-[5px] shadow-md sm:max-w-md focus:outline-none

@@ -6,7 +6,7 @@ import { ButtonLayout } from "@/components/common/Button";
 import { sliceAddress } from "@/core/utils/numerFormatter";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isConnectWalletAtom, isModalOpenAtom } from "@/core/state/globalState";
-import UploadFileModal from "@/components/common/UploadFileModal";
+import UploadFileModal from "@/components/UploadFileModal";
 import CopyIcon from "@/components/common/CopyIcon";
 
 const Header = () => {
