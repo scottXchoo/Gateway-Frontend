@@ -3,6 +3,7 @@ import { ConstantineInfo } from "../config/chainInfo";
 import { GetInfoType } from "@/pages";
 
 const connectWallet = async (event: any, { getInfo }: GetInfoType) => {
+  event.preventDefault();
   if (!window.getOfflineSigner || !window.keplr) {
     throw new Error("Please install keplr extension");
   }
