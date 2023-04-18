@@ -1,4 +1,4 @@
-# 🚪 Gateway | Gateway on Archway, Rewards for Everything
+# 🚪 Gateway on Archway | Rewards for Everything
 <img width="200" alt="supernova" src="https://user-images.githubusercontent.com/107841492/229033747-a4c4e572-16a0-4d9b-8683-aa4e85a08074.png">
 
 ## 🔭 Overview
