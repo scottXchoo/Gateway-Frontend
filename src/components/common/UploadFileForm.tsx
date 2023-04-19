@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import tw from "tailwind-styled-components";
+import { useUploadFile } from "@/core/hooks/useUploadFile";
 
 export interface FormData {
   githubLink: string;
@@ -16,7 +17,7 @@ type UploadFileFormProps = {
 };
 
 const schema = z.object({
-  githubLink: z.string().url().nonempty(),
+  // githubLink: z.string().url().nonempty(),
   walletAddress: z.string().nonempty(),
   description: z.string().nonempty(),
 });
@@ -30,9 +31,11 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
     defaultValues: user,
     resolver: zodResolver(schema),
   });
+  const { executeUpload } = useUploadFile();
 
   const handleSave = (formValues: FormData) => {
     onSave(formValues);
+    executeUpload();
   };
 
   const errorState =
@@ -88,10 +91,10 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
               placeholder="Write your Github Link here"
               {...register("githubLink", {
                 required: true,
-                pattern: {
-                  value: /^https?:\/\/github.com\/.+\/.+\/?$/,
-                  message: "Github Link is invalid",
-                },
+                // pattern: {
+                //   value: /^https?:\/\/github.com\/.+\/.+\/?$/,
+                //   message: "Github Link is invalid",
+                // },
               })}
             />
           </InputBox>

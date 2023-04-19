@@ -4,9 +4,10 @@ export const ConstantineInfo = {
   // The name of the chain to be displayed to the user.
   chainName: "Gateway",
   // RPC endpoint of the chain.
-  rpc: "https://rpc.constantine-1.archway.tech",
+  // rpc: "https://rpc.constantine-1.archway.tech",
+  rpc: "https://rpc-archway-testnet.mms.team",
   // REST endpoint of the chain.
-  rest: "https://api.constantine-1.archway.tech",
+  rest: "https://api-archway-testnet.mms.team",
   // Staking coin information
   stakeCurrency: {
     // Coin denomination to be displayed to the user.

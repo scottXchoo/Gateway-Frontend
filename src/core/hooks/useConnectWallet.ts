@@ -1,6 +1,7 @@
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { ConstantineInfo } from "../config/chainInfo";
 import { GetInfoType } from "@/pages";
+import { GasPrice } from "@cosmjs/stargate";
 
 const connectWallet = async (event: any, { getInfo }: GetInfoType) => {
   event.preventDefault();
@@ -21,9 +22,15 @@ const connectWallet = async (event: any, { getInfo }: GetInfoType) => {
   await window.keplr.enable(ConstantineInfo.chainId);
   const offlineSigner = await window.getOfflineSigner(ConstantineInfo.chainId);
   const accounts = await offlineSigner.getAccounts();
+  const gasPrice = GasPrice.fromString(
+    "0" + ConstantineInfo.currencies[0].coinMinimalDenom
+  );
   const client = await SigningCosmWasmClient.connectWithSigner(
     ConstantineInfo.rpc,
-    offlineSigner
+    offlineSigner,
+    {
+      gasPrice,
+    }
   );
   const balance = await client.getBalance(
     accounts[0].address,
