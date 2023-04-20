@@ -4,6 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import tw from "tailwind-styled-components";
 import { useUploadFileTx } from "@/core/hooks/useUploadFileTx";
+import Button from "./Button";
+import { useRecoilState } from "recoil";
+import {
+  TransactionStatus,
+  TransactionType,
+  transactionStatusAtom,
+} from "@/core/state/transactionState";
 
 export interface FormData {
   githubLink: string;
@@ -31,16 +38,36 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
     defaultValues: user,
     resolver: zodResolver(schema),
   });
+  const [transactionStatus, setStatus] = useRecoilState(transactionStatusAtom);
 
   const { executeUpload } = useUploadFileTx();
 
-  const handleSave = (formValues: FormData) => {
+  const handleSave = async (formValues: FormData) => {
     onSave(formValues);
-    executeUpload(
+
+    setStatus({
+      status: TransactionStatus.EXECUTING,
+      type: TransactionType.UPLOAD,
+    });
+
+    const result = await executeUpload(
       formValues.description,
       formValues.walletAddress,
       formValues.githubLink
     );
+
+    if (!result) {
+      setStatus({
+        status: TransactionStatus.FAILED,
+        type: TransactionType.UPLOAD,
+      });
+      return;
+    }
+
+    setStatus({
+      status: TransactionStatus.IDLE,
+      type: TransactionType.UPLOAD,
+    });
   };
 
   const errorState =
@@ -110,16 +137,11 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
             </ErrorMessage>
           )}
         </InputContainer>
-        <div className="text-right">
-          <SubmitButton
-            type="submit"
-            className={`${
-              errorState && "bg-gray-200 hover:bg-gray-200 cursor-not-allowed"
-            }}`}
-          >
-            SUBMIT
-          </SubmitButton>
-        </div>
+        <Button
+          hasValue={!errorState}
+          transactionStatus={transactionStatus}
+          buttonText="UPLOAD"
+        />
       </div>
     </form>
   );
@@ -127,16 +149,6 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
 
 export default UploadFileForm;
 
-const SubmitButton = tw.button`
-  cursor-pointer
-  text-white
-  font-bold
-  py-2
-  px-4
-  rounded-[5px]
-  bg-orange-500
-  hover:bg-orange-600
-`;
 const InputContainer = tw.div`
   border-b border-gray-100 mb-3
 `;
