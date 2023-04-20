@@ -27,7 +27,7 @@ export default function Home() {
           content="Gateway on Archway, Rewards for Everything"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/gateway_favicon.ico" />
       </Head>
       <Hero />
       {isConnectWallet && <Main />}
