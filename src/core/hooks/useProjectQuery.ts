@@ -2,8 +2,8 @@ import { useCallback, useState } from "react";
 import { getClientAtom } from "../state/globalState";
 import { useRecoilValue } from "recoil";
 import { ContractInfo } from "../config/chainInfo";
-import _ from "lodash";
 import { ProjectType } from "@/components/common/ProjectCard";
+import _ from "lodash";
 
 export const useProjectQuery = () => {
   const cwClient = useRecoilValue(getClientAtom);
@@ -13,9 +13,9 @@ export const useProjectQuery = () => {
 
   const queryProject = useCallback(
     async (projectId: number) => {
-      if (!cwClient) return null;
       const copyClient = _.cloneDeep(cwClient);
-      const result = await copyClient.queryContractSmart(
+      if (!copyClient) return null;
+      const result = await copyClient?.queryContractSmart(
         ContractInfo.contractAddr,
         {
           ProjectInfo: {

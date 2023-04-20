@@ -56,6 +56,7 @@ const ProjectCard = () => {
   const { queryProject, newProjectInfo } = useProjectQuery();
   const [input, setInput] = useState<string>("");
   const [hasValue, setHasValue] = useState<boolean>(false);
+  const { executeAction } = useActionTx();
 
   useEffect(() => {
     queryProject(projectId);
@@ -65,8 +66,6 @@ const ProjectCard = () => {
 
   const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
 
-  const { executeAction } = useActionTx();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
     if (e.target.value) {
@@ -75,6 +74,7 @@ const ProjectCard = () => {
       setHasValue(false);
     }
   };
+
   const handleAction = async (id: number) => {
     setStatus({
       status: TransactionStatus.EXECUTING,
@@ -144,6 +144,10 @@ const ProjectCard = () => {
                   type="text"
                 />
               </InputBox>
+              <InputHeader className="text-left">⚡️ Action Output</InputHeader>
+              <div className="py-2 text-left">
+                <p className="text-xs font-normal"></p>
+              </div>
             </InputContainer>
             <Button
               transactionStatus={transactionStatus}
