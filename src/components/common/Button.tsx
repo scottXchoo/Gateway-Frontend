@@ -11,8 +11,8 @@ export type ClickHandler = MouseEventHandler<HTMLButtonElement>;
 
 interface ButtonProps {
   transactionStatus: TypeTransactionStatus;
-  hasValue: string;
-  onClick: () => void;
+  hasValue: boolean;
+  onClick?: () => void;
   buttonText: string;
 }
 
@@ -25,8 +25,7 @@ const Button = ({
   if (transactionStatus.status == TransactionStatus.EXECUTING) {
     return <Loading content={buttonText} />;
   } else {
-    if (hasValue !== "")
-      return <Active onClick={onClick} content={buttonText} />;
+    if (hasValue) return <Active onClick={onClick} content={buttonText} />;
     else {
       return <InActive content={buttonText} />;
     }
@@ -43,7 +42,7 @@ export const Active = ({
 }) => {
   return (
     <button
-      className="flex flex-row w-full md:py-4 py-3 px-4 text-center items-center justify-center md:text-2xl md:rounded-xl rounded-lg text-yellow-500 bg-orange-500 hover:bg-orange-600 font-semibold transform duration-200 shadow-sm text-lg text-white"
+      className="flex flex-row w-full md:py-3 py-2 px-4 text-center items-center justify-center md:text-2xl md:rounded-xl rounded-lg text-yellow-500 bg-orange-500 hover:bg-orange-600 font-semibold transform duration-200 shadow-sm text-lg text-white"
       onClick={onClick}
     >
       {content}
@@ -53,7 +52,7 @@ export const Active = ({
 
 export const Loading = ({ content }: { content: string }) => {
   return (
-    <button className="cursor-not-allowed flex flex-row w-full md:py-4 py-3 px-4 text-center items-center justify-center md:text-2xl md:rounded-xl rounded-lg text-gray-400 bg-black font-semibold transform duration-200 shadow-sm text-lg">
+    <button className="cursor-not-allowed flex flex-row w-full md:py-3 py-2 px-4 text-center items-center justify-center md:text-2xl md:rounded-xl rounded-lg text-gray-400 bg-black font-semibold transform duration-200 shadow-sm text-lg">
       {content}
       <div className=" h-full ml-4 flex items-center animate-spin">
         <Image src={"/loading.png"} width={20} height={20} alt={""} />
@@ -64,7 +63,7 @@ export const Loading = ({ content }: { content: string }) => {
 
 export const InActive = ({ content }: { content: string }) => {
   return (
-    <button className="cursor-not-allowed inline-block w-full md:py-4 py-3 px-4 text-center md:text-2xl md:rounded-xl rounded-lg text-gray-700 bg-gray-400 font-semibold transform duration-200 shadow-sm text-lg">
+    <button className="cursor-not-allowed inline-block w-full md:py-3 py-2 px-4 text-center md:text-2xl md:rounded-xl rounded-lg text-gray-700 bg-gray-400 font-semibold transform duration-200 shadow-sm text-lg">
       {content}
     </button>
   );

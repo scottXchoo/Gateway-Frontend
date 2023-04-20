@@ -55,6 +55,7 @@ const ProjectCard = () => {
   const [transactionStatus, setStatus] = useRecoilState(transactionStatusAtom);
   const { queryProject, newProjectInfo } = useProjectQuery();
   const [input, setInput] = useState<string>("");
+  const [hasValue, setHasValue] = useState<boolean>(false);
 
   useEffect(() => {
     queryProject(projectId);
@@ -68,6 +69,11 @@ const ProjectCard = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
+    if (e.target.value) {
+      setHasValue(true);
+    } else {
+      setHasValue(false);
+    }
   };
   const handleAction = async (id: number) => {
     setStatus({
@@ -139,14 +145,12 @@ const ProjectCard = () => {
                 />
               </InputBox>
             </InputContainer>
-            <div className="text-right">
-              <Button
-                transactionStatus={transactionStatus}
-                hasValue={input}
-                onClick={() => handleAction(item.uniqueId)}
-                buttonText="ACTION"
-              />
-            </div>
+            <Button
+              transactionStatus={transactionStatus}
+              hasValue={hasValue}
+              onClick={() => handleAction(item.uniqueId)}
+              buttonText="ACTION"
+            />
           </div>
         </li>
       ))}
