@@ -3,7 +3,7 @@ import ComponentLayout from "./ComponentLayout";
 import Link from "next/link";
 import Image from "next/image";
 import { ButtonLayout } from "@/components/common/Button";
-import { ParseDecimal, sliceAddress } from "@/core/utils/numerFormatter";
+import { ParseDecimal, sliceAddress } from "@/core/utils/numberFormatter";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   getAddressAtom,

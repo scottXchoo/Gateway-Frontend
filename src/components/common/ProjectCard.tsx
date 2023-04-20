@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
-import { sliceAddress } from "@/core/utils/numerFormatter";
+import { sliceAddress } from "@/core/utils/numberFormatter";
 import CopyIcon from "./CopyIcon";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useProjectQuery } from "@/core/hooks/useProjectQuery";
