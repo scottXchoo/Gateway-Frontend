@@ -29,7 +29,7 @@ export const getBalanceAtom = atom<Coin | null>({
   key: "getBalance",
   default: null,
 });
-export const getProjectIdArrayAtom = atom<string[]>({
+export const getProjectIdAtom = atom<number>({
   key: "getProjectIdArray",
-  default: [],
+  default: 1,
 });

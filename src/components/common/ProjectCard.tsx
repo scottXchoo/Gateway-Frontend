@@ -1,71 +1,86 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "tailwind-styled-components";
 import { sliceAddress } from "@/core/utils/numerFormatter";
 import CopyIcon from "./CopyIcon";
+import { useRecoilValue } from "recoil";
+import { useProjectQuery } from "@/core/hooks/useProjectQuery";
+import { getProjectIdAtom } from "@/core/state/globalState";
 
-const projects = [
+export type ProjectType = {
+  uniqueId: number;
+  description: string;
+  address: string;
+  githubLink: string;
+};
+
+const projectList: ProjectType[] = [
   {
-    uniqueId: 1,
-    title: "Paradigm Representative",
+    uniqueId: 22,
     description: "description",
     address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
     githubLink: "https://github.com/D3LAB-DAO",
   },
   {
-    uniqueId: 2,
-    title: "Paradigm Representative",
+    uniqueId: 23,
     description: "description",
     address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
     githubLink: "https://github.com/D3LAB-DAO",
   },
   {
-    uniqueId: 3,
-    title: "Paradigm Representative",
-    description: "description",
-    address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
-    githubLink: "https://github.com/D3LAB-DAO",
-  },
-  {
-    uniqueId: 4,
-    title: "Paradigm Representative",
+    uniqueId: 24,
     description: "description",
     address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
     githubLink: "https://github.com/D3LAB-DAO",
   },
 ];
 
+function removeDuplicateArray(arr: ProjectType[], key: string) {
+  return arr.filter(
+    (item: any, index, self) =>
+      index === self.findIndex((t: any) => t[key] === item[key])
+  );
+}
+
 const ProjectCard = () => {
   const errorState = false;
+  const projectId = useRecoilValue(getProjectIdAtom);
+  const { queryProject, newProjectInfo } = useProjectQuery();
+
+  useEffect(() => {
+    queryProject(projectId);
+  }, [projectId]);
+
+  if (newProjectInfo) projectList.push(newProjectInfo);
+
+  const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
 
   return (
     <ul
       role="list"
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
     >
-      {projects.map((item) => (
+      {filterdProjectList.map((item) => (
         <li
-          key={item.uniqueId}
+          key={`${item.uniqueId}/${item.address}}`}
           className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl bg-white text-center shadow"
         >
           <div className="flex flex-1 flex-col p-4">
             <Image
               className="mx-auto flex-shrink-0 rounded-full"
-              src={`/tiny_cute_3d_car(${item.uniqueId}).png`}
+              src={`/tiny_cute_3d_car(${(item.uniqueId % 4) + 1}).png`}
               width={250}
               height={250}
               alt="projects"
             />
-            <InputHeader>
-              #{item.uniqueId}. {item.title}
-            </InputHeader>
+            <InputHeader>#{item.uniqueId}. Project</InputHeader>
             <p className="text-sm text-gray-500">{item.description}</p>
 
             <div className="rounded-2xl bg-gray-900 text-center shadow px-6 mt-3">
               <InputHeader className="text-left text-white">
                 🚀 Wallet Address
                 <p className="text-xs font-normal">
-                  {sliceAddress(item.address, 12)}{" "}
+                  {sliceAddress(item.address, 8)}{" "}
                   <CopyIcon text={item.address} />
                 </p>
               </InputHeader>

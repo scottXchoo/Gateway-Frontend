@@ -1,7 +1,7 @@
 import {
   getClientAtom,
   isModalOpenAtom,
-  getProjectIdArrayAtom,
+  getProjectIdAtom,
   getAddressAtom,
 } from "../state/globalState";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -13,7 +13,7 @@ export const useUploadFile = () => {
   const cwClient = useRecoilValue(getClientAtom);
   const userAddress = useRecoilValue(getAddressAtom);
   const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
-  const setProjectIdArray = useSetRecoilState(getProjectIdArrayAtom);
+  const setProjectId = useSetRecoilState(getProjectIdAtom);
 
   const executeUpload = useCallback(
     async (description: string, walletAddress: string, githubAddr: string) => {
@@ -35,13 +35,13 @@ export const useUploadFile = () => {
       if (result.logs[0].events[2].attributes[1].value) {
         const projectId = result.logs[0].events[2].attributes[1].value;
         setIsModalOpen(false);
-        setProjectIdArray((prevArray) => [...prevArray, projectId]);
+        setProjectId(Number(projectId));
       } else {
         console.error("Error");
       }
       return result;
     },
-    [cwClient, userAddress, setIsModalOpen, setProjectIdArray]
+    [cwClient, userAddress, setIsModalOpen, setProjectId]
   );
 
   return { executeUpload };
