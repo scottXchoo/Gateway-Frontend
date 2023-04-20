@@ -3,7 +3,7 @@ import ComponentLayout from "./ComponentLayout";
 import Link from "next/link";
 import Image from "next/image";
 import { ButtonLayout } from "@/components/common/Button";
-import { sliceAddress } from "@/core/utils/numerFormatter";
+import { ParseDecimal, sliceAddress } from "@/core/utils/numerFormatter";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   getAddressAtom,
@@ -17,6 +17,7 @@ import CopyIcon from "@/components/common/CopyIcon";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { Coin } from "@cosmjs/proto-signing";
 import connectWallet from "@/core/hooks/useConnectWallet";
+import { ConstantineInfo } from "@/core/config/chainInfo";
 
 export type GetInfoType = {
   getInfo: (
@@ -46,6 +47,8 @@ const Header = () => {
   };
 
   const renderBtn = () => {
+    const coinDecimals = ConstantineInfo.currencies[0].coinDecimals;
+    const coinDenom = ConstantineInfo.currencies[0].coinDenom;
     return !!client && !!address && !!isConnectWallet ? (
       <>
         <ButtonLayout onClick={handleUploadFiles} className="md:mr-5">
@@ -53,12 +56,14 @@ const Header = () => {
         </ButtonLayout>
         <div className="text-white mr-2">
           <b className="hidden md:block">BALANCE</b>
-          <p className="text-sm">{balance?.amount} ARCH</p>
+          <p className="text-sm">
+            {ParseDecimal(balance?.amount || "0", 6)} {coinDenom}
+          </p>
         </div>
         <div className="text-white">
           <b className="hidden md:block">ADDRESS</b>
           <p className="text-sm">
-            {sliceAddress(address, 6)} <CopyIcon text={address} />
+            {sliceAddress(address, coinDecimals)} <CopyIcon text={address} />
           </p>
         </div>
       </>
