@@ -12,6 +12,7 @@ import {
   TransactionType,
   transactionStatusAtom,
 } from "@/core/state/transactionState";
+import Button from "./Button";
 
 export type ProjectType = {
   uniqueId: number;
@@ -49,12 +50,11 @@ function removeDuplicateArray(arr: ProjectType[], key: string) {
 }
 
 const ProjectCard = () => {
-  const errorState = false;
   const projectId = useRecoilValue(getProjectIdAtom);
   const userAddress = useRecoilValue(getAddressAtom);
   const [transactionStatus, setStatus] = useRecoilState(transactionStatusAtom);
   const { queryProject, newProjectInfo } = useProjectQuery();
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>("");
 
   useEffect(() => {
     queryProject(projectId);
@@ -138,25 +138,14 @@ const ProjectCard = () => {
                   type="text"
                 />
               </InputBox>
-              <div className="flex font-bold ">
-                {transactionStatus.status === "EXECUTING" ? (
-                  <WaitMessage>Wait a minute!</WaitMessage>
-                ) : transactionStatus.status === "FAILED" ? (
-                  <ErrorMessage>Error!</ErrorMessage>
-                ) : null}
-              </div>
             </InputContainer>
             <div className="text-right">
-              <SubmitButton
+              <Button
+                transactionStatus={transactionStatus}
+                hasValue={input}
                 onClick={() => handleAction(item.uniqueId)}
-                type="submit"
-                className={`${
-                  errorState &&
-                  "bg-gray-200 hover:bg-gray-200 cursor-not-allowed"
-                }}`}
-              >
-                ACTION
-              </SubmitButton>
+                buttonText="ACTION"
+              />
             </div>
           </div>
         </li>
@@ -167,16 +156,6 @@ const ProjectCard = () => {
 
 export default ProjectCard;
 
-const SubmitButton = tw.button`
-  cursor-pointer
-  text-white
-  font-bold
-  py-2
-  px-4
-  rounded-[5px]
-  bg-orange-500
-  hover:bg-orange-600
-`;
 const InputContainer = tw.div`
   border-b border-gray-100 mb-3
 `;
@@ -188,18 +167,4 @@ const InputBox = tw.div`
 `;
 const Input = tw.input`
 rounded-[5px] ring-1 ring-inset ring-gray-200 flex-auto border-0 py-1.5 pl-2 text-gray-150 placeholder:text-gray-200 focus:ring-0 sm:text-sm sm:leading-6
-`;
-const ErrorMessage = tw.p`
-  text-right
-  text-red-600
-  text-sm
-  mb-2
-  font-bold
-`;
-const WaitMessage = tw.p`
-  text-right
-  text-blue-600
-  text-sm
-  mb-2
-  font-bold
 `;
