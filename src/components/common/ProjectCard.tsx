@@ -1,11 +1,17 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import { sliceAddress } from "@/core/utils/numerFormatter";
 import CopyIcon from "./CopyIcon";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useProjectQuery } from "@/core/hooks/useProjectQuery";
-import { getProjectIdAtom } from "@/core/state/globalState";
+import { getAddressAtom, getProjectIdAtom } from "@/core/state/globalState";
+import { useActionTx } from "@/core/hooks/useActionTx";
+import {
+  TransactionStatus,
+  TransactionType,
+  transactionStatusAtom,
+} from "@/core/state/transactionState";
 
 export type ProjectType = {
   uniqueId: number;
@@ -45,7 +51,10 @@ function removeDuplicateArray(arr: ProjectType[], key: string) {
 const ProjectCard = () => {
   const errorState = false;
   const projectId = useRecoilValue(getProjectIdAtom);
+  const userAddress = useRecoilValue(getAddressAtom);
+  const [transactionStatus, setStatus] = useRecoilState(transactionStatusAtom);
   const { queryProject, newProjectInfo } = useProjectQuery();
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     queryProject(projectId);
@@ -54,6 +63,35 @@ const ProjectCard = () => {
   if (newProjectInfo) projectList.push(newProjectInfo);
 
   const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
+
+  const { executeAction } = useActionTx();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+  const handleAction = async (id: number) => {
+    setStatus({
+      status: TransactionStatus.EXECUTING,
+      type: TransactionType.ACTION,
+    });
+
+    const result = await executeAction(userAddress, id, input);
+
+    if (!result) {
+      setStatus({
+        status: TransactionStatus.FAILED,
+        type: TransactionType.ACTION,
+      });
+      return;
+    }
+
+    setStatus({
+      status: TransactionStatus.IDLE,
+      type: TransactionType.ACTION,
+    });
+
+    setInput("");
+  };
 
   return (
     <ul
@@ -94,16 +132,23 @@ const ProjectCard = () => {
             <InputContainer>
               <InputHeader className="text-left">🔎 Action Input</InputHeader>
               <InputBox>
-                <Input placeholder="Action this project!" type="text" />
+                <Input
+                  onChange={handleChange}
+                  placeholder="Action this project!"
+                  type="text"
+                />
               </InputBox>
-              <div className="flex justify-between">
-                <ErrorMessage>Error!</ErrorMessage>
-                <RightMessage>Right!</RightMessage>
-                <WaitMessage>Wait!</WaitMessage>
+              <div className="flex font-bold ">
+                {transactionStatus.status === "EXECUTING" ? (
+                  <WaitMessage>Wait a minute!</WaitMessage>
+                ) : transactionStatus.status === "FAILED" ? (
+                  <ErrorMessage>Error!</ErrorMessage>
+                ) : null}
               </div>
             </InputContainer>
             <div className="text-right">
               <SubmitButton
+                onClick={() => handleAction(item.uniqueId)}
                 type="submit"
                 className={`${
                   errorState &&
@@ -149,19 +194,12 @@ const ErrorMessage = tw.p`
   text-red-600
   text-sm
   mb-2
-  font-semibold
-`;
-const RightMessage = tw.p`
-  text-right
-  text-green-600
-  text-sm
-  mb-2
-  font-semibold
+  font-bold
 `;
 const WaitMessage = tw.p`
   text-right
   text-blue-600
   text-sm
   mb-2
-  font-semibold
+  font-bold
 `;
