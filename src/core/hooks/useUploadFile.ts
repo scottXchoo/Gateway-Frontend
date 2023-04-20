@@ -2,19 +2,21 @@ import {
   getClientAtom,
   isModalOpenAtom,
   getProjectIdArrayAtom,
+  getAddressAtom,
 } from "../state/globalState";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { ContractInfo } from "../config/chainInfo";
 import { useCallback } from "react";
 import _ from "lodash";
-import { ContractInfo } from "../config/chainInfo";
 
 export const useUploadFile = () => {
   const cwClient = useRecoilValue(getClientAtom);
+  const userAddress = useRecoilValue(getAddressAtom);
   const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
   const setProjectIdArray = useSetRecoilState(getProjectIdArrayAtom);
 
   const executeUpload = useCallback(
-    async (userAddress: string) => {
+    async (description: string, walletAddress: string, githubAddr: string) => {
       if (!cwClient) return null;
       const copyClient = _.cloneDeep(cwClient);
       const result = await copyClient.execute(
@@ -22,10 +24,9 @@ export const useUploadFile = () => {
         ContractInfo.contractAddr,
         {
           CreateProjectMsg: {
-            owner: userAddress,
-            github_addr:
-              "https://github.com/a41ventures/A4asset-client/blob/main/src/core/hooks/useTableData.ts",
-            description: "descriptiondsfs",
+            owner: walletAddress,
+            github_addr: githubAddr,
+            description: description,
           },
         },
         "auto"
@@ -40,7 +41,7 @@ export const useUploadFile = () => {
       }
       return result;
     },
-    [cwClient, setIsModalOpen, setProjectIdArray]
+    [cwClient, userAddress, setIsModalOpen, setProjectIdArray]
   );
 
   return { executeUpload };
