@@ -23,19 +23,19 @@ export type ProjectType = {
 
 const projectList: ProjectType[] = [
   {
-    uniqueId: 22,
+    uniqueId: 1,
     description: "description",
     address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
     githubLink: "https://github.com/D3LAB-DAO",
   },
   {
-    uniqueId: 23,
+    uniqueId: 2,
     description: "description",
     address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
     githubLink: "https://github.com/D3LAB-DAO",
   },
   {
-    uniqueId: 24,
+    uniqueId: 3,
     description: "description",
     address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
     githubLink: "https://github.com/D3LAB-DAO",
@@ -53,9 +53,8 @@ const ProjectCard = () => {
   const projectId = useRecoilValue(getProjectIdAtom);
   const userAddress = useRecoilValue(getAddressAtom);
   const [transactionStatus, setStatus] = useRecoilState(transactionStatusAtom);
+  const [hasValue, setHasValue] = useState<boolean>(true);
   const { queryProject, newProjectInfo } = useProjectQuery();
-  const [input, setInput] = useState<string>("");
-  const [hasValue, setHasValue] = useState<boolean>(false);
   const { executeAction } = useActionTx();
 
   useEffect(() => {
@@ -65,14 +64,15 @@ const ProjectCard = () => {
   if (newProjectInfo) projectList.push(newProjectInfo);
 
   const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
+  const [inputValues, setInputValues] = useState([""]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-    if (e.target.value) {
-      setHasValue(true);
-    } else {
-      setHasValue(false);
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newInputValues = [...inputValues];
+    newInputValues[index] = e.target.value;
+    setInputValues(newInputValues);
   };
 
   const handleAction = async (id: number) => {
@@ -81,7 +81,7 @@ const ProjectCard = () => {
       type: TransactionType.ACTION,
     });
 
-    const result = await executeAction(userAddress, id, input);
+    const result = await executeAction(userAddress, id, inputValues[id]);
 
     if (!result) {
       setStatus({
@@ -96,7 +96,7 @@ const ProjectCard = () => {
       type: TransactionType.ACTION,
     });
 
-    setInput("");
+    setInputValues([""]);
   };
 
   return (
@@ -139,8 +139,9 @@ const ProjectCard = () => {
               <InputHeader className="text-left">🔎 Action Input</InputHeader>
               <InputBox>
                 <Input
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e, item.uniqueId)}
                   placeholder="Action this project!"
+                  value={inputValues[item.uniqueId]}
                   type="text"
                 />
               </InputBox>
@@ -149,6 +150,7 @@ const ProjectCard = () => {
                 <p className="text-xs font-normal"></p>
               </div>
             </InputContainer>
+
             <Button
               transactionStatus={transactionStatus}
               hasValue={hasValue}
