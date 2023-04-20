@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import tw from "tailwind-styled-components";
 import { useUploadFile } from "@/core/hooks/useUploadFile";
+import { useRecoilValue } from "recoil";
+import { getAddressAtom } from "@/core/state/globalState";
 
 export interface FormData {
   githubLink: string;
@@ -31,11 +33,14 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
     defaultValues: user,
     resolver: zodResolver(schema),
   });
+
   const { executeUpload } = useUploadFile();
+
+  const userAddress = useRecoilValue(getAddressAtom);
 
   const handleSave = (formValues: FormData) => {
     onSave(formValues);
-    executeUpload();
+    executeUpload(userAddress);
   };
 
   const errorState =
