@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import tw from "tailwind-styled-components";
-import { useUploadFile } from "@/core/hooks/useUploadFile";
+import { useUploadFileTx } from "@/core/hooks/useUploadFileTx";
 
 export interface FormData {
   githubLink: string;
@@ -32,7 +32,7 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
     resolver: zodResolver(schema),
   });
 
-  const { executeUpload } = useUploadFile();
+  const { executeUpload } = useUploadFileTx();
 
   const handleSave = (formValues: FormData) => {
     onSave(formValues);

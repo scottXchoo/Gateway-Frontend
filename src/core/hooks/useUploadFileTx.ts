@@ -9,7 +9,7 @@ import { ContractInfo } from "../config/chainInfo";
 import { useCallback } from "react";
 import _ from "lodash";
 
-export const useUploadFile = () => {
+export const useUploadFileTx = () => {
   const cwClient = useRecoilValue(getClientAtom);
   const userAddress = useRecoilValue(getAddressAtom);
   const setIsModalOpen = useSetRecoilState(isModalOpenAtom);
