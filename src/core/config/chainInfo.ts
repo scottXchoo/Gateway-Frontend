@@ -93,3 +93,8 @@ export const ConstantineInfo = {
   //   faucets: ["https://faucet.constantine-2.archway.tech"],
   //   features: ["cosmwasm"],
 };
+
+export const ContractInfo = {
+  contractAddr:
+    "archway1nncwqvzr5ep4fmqxn43uh6w9upydvrh5qpsud7nmg0fuwupjm8es8x9afu",
+};
