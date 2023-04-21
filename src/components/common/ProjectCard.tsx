@@ -24,21 +24,24 @@ export type ProjectType = {
 const projectList: ProjectType[] = [
   {
     uniqueId: 1,
-    description: "description",
-    address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
-    githubLink: "https://github.com/D3LAB-DAO",
+    description:
+      "Character AI Bot is an innovative generative AI-driven solution that brings fictional characters to life.",
+    address: "archway1dqqfypr9a98czeh23a64eh6a0y7cqhycrzsm6a",
+    githubLink: "https://github.com/openai",
   },
   {
     uniqueId: 2,
-    description: "description",
-    address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
-    githubLink: "https://github.com/D3LAB-DAO",
+    description:
+      "Auto Drawing is a cutting-edge generative AI solution that turns your textual descriptions into captivating visual content.",
+    address: "archway1cf6fpd3y2e3mv0m22zyuqm2tcqc3g498z0jw6u",
+    githubLink: "https://github.com/midjourney",
   },
   {
     uniqueId: 3,
-    description: "description",
-    address: "0x6C806420091bE7DED3f311FA303Cc7d6B2015113",
-    githubLink: "https://github.com/D3LAB-DAO",
+    description:
+      "Adrenaline-pumping virtual reality gun shooting game that transports you to a thrilling world of action and adventure.",
+    address: "archway1zk645ch525zrdgwfzmrq57x4urgmqk65n65v6q",
+    githubLink: "https://github.com/facebook",
   },
 ];
 
@@ -62,6 +65,8 @@ const ProjectCard = () => {
   }, [projectId]);
 
   if (newProjectInfo) projectList.push(newProjectInfo);
+
+  console.log("projectList", projectList);
 
   const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
   const [inputValues, setInputValues] = useState([""]);
@@ -99,6 +104,12 @@ const ProjectCard = () => {
     setInputValues([""]);
   };
 
+  const projectNameMapping = [
+    "Character AI Bot",
+    "Auto Drawing",
+    "VR Gun Shooting Game",
+  ];
+
   return (
     <ul
       role="list"
@@ -112,12 +123,17 @@ const ProjectCard = () => {
           <div className="flex flex-1 flex-col p-4">
             <Image
               className="mx-auto flex-shrink-0 rounded-full"
-              src={`/tiny_cute_3d_car(${(item.uniqueId % 4) + 1}).png`}
-              width={250}
-              height={250}
+              src={`/image_${item.uniqueId % 4}.png`}
+              width={500}
+              height={500}
               alt="projects"
             />
-            <InputHeader>#{item.uniqueId}. Project</InputHeader>
+            <InputHeader>
+              #{item.uniqueId}.{" "}
+              {item.uniqueId > 3
+                ? "Chat GPT-4 Bot"
+                : projectNameMapping[item.uniqueId - 1]}
+            </InputHeader>
             <p className="text-sm text-gray-500">{item.description}</p>
 
             <div className="rounded-2xl bg-gray-900 text-center shadow px-6 mt-3">
