@@ -29,7 +29,6 @@ export const useActionTx = (projectList: ProjectType[]) => {
         "auto"
       );
       if (result) {
-        console.log(result);
         const newActionResults = [...actionResults];
         newActionResults[id] = result.logs[0].log;
         setActionResults(newActionResults);
