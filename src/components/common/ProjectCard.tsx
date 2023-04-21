@@ -75,7 +75,7 @@ const ProjectCard = () => {
           key={`${item.uniqueId}/${item.address}}`}
           className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl bg-white text-center shadow"
         >
-          <div className="flex flex-1 flex-col p-4">
+          <div className="flex flex-1 flex-col p-4 justify-between">
             <Image
               className="mx-auto flex-shrink-0 rounded-full"
               src={`/image_${item.uniqueId > 3 ? 4 : item.uniqueId}.png`}
