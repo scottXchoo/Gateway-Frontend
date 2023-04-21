@@ -97,5 +97,5 @@ export const ConstantineInfo = {
 
 export const ContractInfo = {
   contractAddr:
-    "archway1f2uy67undt9486j305f6cfnm47mxf53tpnx60vl4ruk926gsyw9qrtfs3h",
+    "archway1mc3t2yjqew2w5a5e4g3fjr475x3sx7k2kvkdvanarepegt8fzlrs6028mr",
 };
