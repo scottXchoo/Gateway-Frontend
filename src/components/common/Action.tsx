@@ -17,7 +17,7 @@ const Action = ({ projectId, projectList }: ActionProps) => {
     Array(projectList.length + 1).fill("")
   );
   const [actionStates, setActionStates] = useState<boolean[]>([false]);
-  const { executeAction } = useActionTx();
+  const { executeAction, actionResults } = useActionTx(projectList);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -53,9 +53,13 @@ const Action = ({ projectId, projectList }: ActionProps) => {
           />
         </InputBox>
         <InputHeader className="text-left">⚡️ Action Output</InputHeader>
-        <div className="py-2 text-left">
-          <p className="text-xs font-normal"></p>
-        </div>
+        {!!actionResults[projectId] ? (
+          <div className="my-1 py-1.5 text-left text-xs ring-1 ring-inset ring-orange-400 rounded-[5px] border-0 pl-2">
+            {actionResults[projectId]}
+          </div>
+        ) : (
+          <div className="py-1.5"></div>
+        )}
       </InputContainer>
 
       <Button
@@ -77,7 +81,7 @@ const InputBox = tw.div`
   my-2 flex rounded-[5px] shadow-md sm:max-w-md focus:outline-none
 `;
 const Input = tw.input`
-rounded-[5px] ring-1 ring-inset ring-gray-200 flex-auto border-0 py-1.5 pl-2 text-gray-150 placeholder:text-gray-200 focus:ring-0 sm:text-sm sm:leading-6
+  rounded-[5px] ring-1 ring-inset ring-gray-200 flex-auto border-0 py-1.5 pl-2 text-gray-150 placeholder:text-gray-200 focus:ring-0 sm:text-sm sm:leading-6
 `;
 const InputHeader = tw.div`
   text-md font-semibold leading-7 text-gray-800 mt-3

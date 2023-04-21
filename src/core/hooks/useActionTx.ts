@@ -1,12 +1,16 @@
 import { getClientAtom, getAddressAtom } from "../state/globalState";
 import { useRecoilValue } from "recoil";
 import { ContractInfo } from "../config/chainInfo";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import _ from "lodash";
+import { ProjectType } from "@/components/common/ProjectCard";
 
-export const useActionTx = () => {
+export const useActionTx = (projectList: ProjectType[]) => {
   const cwClient = useRecoilValue(getClientAtom);
   const userAddress = useRecoilValue(getAddressAtom);
+  const [actionResults, setActionResults] = useState<string[]>(
+    Array(projectList.length + 1).fill("")
+  );
 
   const executeAction = useCallback(
     async (walletAddress: string, id: number, input: string) => {
@@ -26,13 +30,16 @@ export const useActionTx = () => {
       );
       if (result) {
         console.log(result);
+        const newActionResults = [...actionResults];
+        newActionResults[id] = result.logs[0].log;
+        setActionResults(newActionResults);
       } else {
         console.error("Error");
       }
       return result;
     },
-    [cwClient, userAddress]
+    [cwClient, userAddress, actionResults]
   );
 
-  return { executeAction };
+  return { executeAction, actionResults };
 };
