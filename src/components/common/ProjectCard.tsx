@@ -106,7 +106,10 @@ const ProjectCard = () => {
                 </p>
               </InputHeader>
             </div>
-            <Action projectId={item.uniqueId} />
+            <Action
+              projectId={item.uniqueId}
+              projectList={filterdProjectList}
+            />
           </div>
         </li>
       ))}

@@ -4,14 +4,18 @@ import Button from "./Button";
 import { useRecoilValue } from "recoil";
 import { getAddressAtom } from "@/core/state/globalState";
 import { useActionTx } from "@/core/hooks/useActionTx";
+import { ProjectType } from "./ProjectCard";
 
 type ActionProps = {
   projectId: number;
+  projectList: ProjectType[];
 };
 
-const Action = ({ projectId }: ActionProps) => {
+const Action = ({ projectId, projectList }: ActionProps) => {
   const userAddress = useRecoilValue(getAddressAtom);
-  const [inputValues, setInputValues] = useState<string[]>(Array(4).fill(""));
+  const [inputValues, setInputValues] = useState<string[]>(
+    Array(projectList.length + 1).fill("")
+  );
   const [actionStates, setActionStates] = useState<boolean[]>([false]);
   const { executeAction } = useActionTx();
 
@@ -33,7 +37,7 @@ const Action = ({ projectId }: ActionProps) => {
 
     newButtonStates[id] = !newButtonStates[id];
     setActionStates(newButtonStates);
-    setInputValues(Array(4).fill(""));
+    setInputValues(Array(projectList.length + 1).fill(""));
   };
 
   return (
