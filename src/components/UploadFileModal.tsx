@@ -8,10 +8,6 @@ import Image from "next/image";
 const UploadFileModal = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenAtom);
 
-  const handleSave = (values: FormData) => {
-    console.log({ values });
-  };
-
   return (
     <Transition.Root show={isModalOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setIsModalOpen}>
@@ -42,7 +38,7 @@ const UploadFileModal = () => {
                     />
                   </div>
                   <div className="mt-1">
-                    <UploadFileForm onSave={handleSave} />
+                    <UploadFileForm />
                   </div>
                 </div>
               </Dialog.Panel>

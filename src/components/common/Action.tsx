@@ -15,9 +15,6 @@ const Action = ({ projectId }: ActionProps) => {
   const [actionStates, setActionStates] = useState<boolean[]>([false]);
   const { executeAction } = useActionTx();
 
-  console.log("inputValues", inputValues);
-  console.log("actionStates", actionStates);
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number

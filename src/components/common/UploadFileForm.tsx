@@ -1,16 +1,10 @@
-import React from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import tw from "tailwind-styled-components";
 import { useUploadFileTx } from "@/core/hooks/useUploadFileTx";
+import tw from "tailwind-styled-components";
+import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import Button from "./Button";
-import { useRecoilState } from "recoil";
-import {
-  TransactionStatus,
-  TransactionType,
-  transactionStatusAtom,
-} from "@/core/state/transactionState";
+import { z } from "zod";
 
 export interface FormData {
   githubLink: string;
@@ -19,7 +13,6 @@ export interface FormData {
 }
 
 type UploadFileFormProps = {
-  onSave: (values: any) => void;
   user?: any;
 };
 
@@ -29,7 +22,7 @@ const schema = z.object({
   description: z.string().nonempty(),
 });
 
-const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
+const UploadFileForm = ({ user = {} }: UploadFileFormProps) => {
   const {
     register,
     handleSubmit,
@@ -38,36 +31,20 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
     defaultValues: user,
     resolver: zodResolver(schema),
   });
-  const [transactionStatus, setStatus] = useRecoilState(transactionStatusAtom);
 
+  const [input, setInput] = useState<FormData | null>(null);
   const { executeUpload } = useUploadFileTx();
 
   const handleSave = async (formValues: FormData) => {
-    onSave(formValues);
+    setInput(formValues);
 
-    setStatus({
-      status: TransactionStatus.EXECUTING,
-      type: TransactionType.UPLOAD,
-    });
-
-    const result = await executeUpload(
+    await executeUpload(
       formValues.description,
       formValues.walletAddress,
       formValues.githubLink
     );
 
-    if (!result) {
-      setStatus({
-        status: TransactionStatus.FAILED,
-        type: TransactionType.UPLOAD,
-      });
-      return;
-    }
-
-    setStatus({
-      status: TransactionStatus.IDLE,
-      type: TransactionType.UPLOAD,
-    });
+    setInput(null);
   };
 
   const errorState =
@@ -138,8 +115,8 @@ const UploadFileForm = ({ onSave, user = {} }: UploadFileFormProps) => {
           )}
         </InputContainer>
         <Button
+          isLoading={!!input}
           hasValue={!errorState}
-          transactionStatus={transactionStatus}
           buttonText="UPLOAD"
         />
       </div>
