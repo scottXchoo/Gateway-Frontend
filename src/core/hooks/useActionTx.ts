@@ -2,8 +2,8 @@ import { getClientAtom, getAddressAtom } from "../state/globalState";
 import { useRecoilValue } from "recoil";
 import { ContractInfo } from "../config/chainInfo";
 import { useCallback, useState } from "react";
-import _ from "lodash";
 import { ProjectType } from "@/components/common/ProjectCard";
+import _ from "lodash";
 
 export const useActionTx = (projectList: ProjectType[]) => {
   const cwClient = useRecoilValue(getClientAtom);
@@ -13,7 +13,7 @@ export const useActionTx = (projectList: ProjectType[]) => {
   );
 
   const executeAction = useCallback(
-    async (walletAddress: string, id: number, input: string) => {
+    async (walletAddress: string, projectId: number, input: string) => {
       if (!cwClient) return null;
       const copyClient = _.cloneDeep(cwClient);
       const result = await copyClient.execute(
@@ -22,18 +22,35 @@ export const useActionTx = (projectList: ProjectType[]) => {
         {
           ResultRequestMsg: {
             user: walletAddress,
-            id: id,
+            id: projectId,
             input: input,
           },
         },
         "auto"
       );
+
       if (result) {
-        const newActionResults = [...actionResults];
-        newActionResults[id] = result.logs[0].log;
-        setActionResults(newActionResults);
+        const resultQuery = await copyClient?.queryContractSmart(
+          ContractInfo.contractAddr,
+          {
+            ResultInfo: {
+              id: projectId,
+              req_id: projectId,
+            },
+          }
+        );
+
+        if (resultQuery) {
+          const newActionResults = [...actionResults];
+          const result = resultQuery.result;
+          newActionResults[projectId] = result;
+
+          setActionResults(newActionResults);
+        } else {
+          console.error("Error Query");
+        }
       } else {
-        console.error("Error");
+        console.error("Error Tx");
       }
       return result;
     },
