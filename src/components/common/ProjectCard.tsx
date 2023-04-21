@@ -57,7 +57,7 @@ const ProjectCard = () => {
 
   if (newProjectInfo) projectList.push(newProjectInfo);
 
-  const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
+  const filteredProjectList = removeDuplicateArray(projectList, "uniqueId");
 
   const projectNameMapping = [
     "Character AI Bot",
@@ -70,7 +70,7 @@ const ProjectCard = () => {
       role="list"
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
     >
-      {filterdProjectList.map((item) => (
+      {filteredProjectList.map(item => (
         <li
           key={`${item.uniqueId}/${item.address}}`}
           className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl bg-white text-center shadow"
@@ -108,7 +108,7 @@ const ProjectCard = () => {
             </div>
             <Action
               projectId={item.uniqueId}
-              projectList={filterdProjectList}
+              projectList={filteredProjectList}
             />
           </div>
         </li>
