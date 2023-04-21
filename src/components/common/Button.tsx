@@ -1,7 +1,3 @@
-import {
-  TransactionStatus,
-  TypeTransactionStatus,
-} from "@/core/state/transactionState";
 import Image from "next/image";
 import { MouseEventHandler } from "react";
 import tw from "tailwind-styled-components";
@@ -10,19 +6,14 @@ export type ButtonStatus = "loading" | "error" | "active" | "disabled";
 export type ClickHandler = MouseEventHandler<HTMLButtonElement>;
 
 interface ButtonProps {
-  transactionStatus: TypeTransactionStatus;
+  isLoading: boolean;
   hasValue: boolean;
   onClick?: () => void;
   buttonText: string;
 }
 
-const Button = ({
-  transactionStatus,
-  hasValue,
-  onClick,
-  buttonText,
-}: ButtonProps) => {
-  if (transactionStatus.status == TransactionStatus.EXECUTING) {
+const Button = ({ isLoading, hasValue, onClick, buttonText }: ButtonProps) => {
+  if (isLoading) {
     return <Loading content={buttonText} />;
   } else {
     if (hasValue) return <Active onClick={onClick} content={buttonText} />;
