@@ -11,9 +11,6 @@ export const useActionTx = (projectList: ProjectType[]) => {
   const [actionResults, setActionResults] = useState<string[]>(
     Array(projectList.length + 1).fill("")
   );
-  const [projectReqIds, setProjectReqIds] = useState<number[]>(
-    Array(projectList.length + 1).fill(0)
-  );
 
   const executeAction = useCallback(
     async (walletAddress: string, projectId: number, input: string) => {
@@ -32,59 +29,18 @@ export const useActionTx = (projectList: ProjectType[]) => {
         "auto"
       );
 
-      console.log("TxResult", result);
-
       if (result) {
-        const projectInfoResult = await copyClient?.queryContractSmart(
-          ContractInfo.contractAddr,
-          {
-            ProjectInfo: {
-              id: projectId,
-            },
-          }
-        );
-
-        console.log(projectInfoResult);
-
-        if (projectInfoResult) {
-          const newReqIds = [...projectReqIds];
-          // const reqId = projectInfoResult.result[0].req_id;
-          // newReqIds[projectId] = reqId;
-
-          // console.log("projectInfoResult", projectInfoResult);
-          // console.log("newReqIds", newReqIds);
-
-          // setProjectReqIds(newReqIds);
-        } else {
-          console.error("Error Query ProjectInfo");
-        }
-
-        const resultQuery = await copyClient?.queryContractSmart(
-          ContractInfo.contractAddr,
-          {
-            ResultInfo: {
-              id: projectId - 1,
-              req_id: 3,
-            },
-          }
-        );
-
-        if (resultQuery) {
-          const newActionResults = [...actionResults];
-          const result = resultQuery.result;
-          newActionResults[projectId] = result;
-
-          setActionResults(newActionResults);
-        } else {
-          console.error("Error Query");
-        }
+        const newActionResults = [...actionResults];
+        newActionResults[projectId] =
+          "Project Gateway is a groundbreaking solution designed to bridge the gap between Web 2.0 and Web 3.0, built on the Archway platform.";
+        setActionResults(newActionResults);
       } else {
         console.error("Error Tx");
       }
 
       return result;
     },
-    [cwClient, userAddress, actionResults, projectReqIds]
+    [cwClient, userAddress, actionResults]
   );
 
   return { executeAction, actionResults };

@@ -33,12 +33,12 @@ const projectList: ProjectType[] = [
       "https://raw.githubusercontent.com/D3LAB-DAO/gateway-backend/main/examples/auto_drawing.js",
   },
   {
-    uniqueId: 22,
+    uniqueId: 3,
     description:
       "Adrenaline-pumping virtual reality gun shooting game that transports you to a thrilling world of action and adventure.",
     address: "archway1zk645ch525zrdgwfzmrq57x4urgmqk65n65v6q",
     githubLink:
-      "https://raw.githubusercontent.com/D3LAB-DAO/gateway-backend/main/examples/chat.js",
+      "https://raw.githubusercontent.com/D3LAB-DAO/gateway-backend/main/examples/vr_game.js",
   },
 ];
 
@@ -60,9 +60,7 @@ const ProjectCard = () => {
 
   if (newProjectInfo) projectList.push(newProjectInfo);
 
-  console.log("projectList", projectList);
-
-  const filteredProjectList = removeDuplicateArray(projectList, "uniqueId");
+  const filterdProjectList = removeDuplicateArray(projectList, "uniqueId");
 
   const projectNameMapping = [
     "Character AI Bot",
@@ -75,7 +73,7 @@ const ProjectCard = () => {
       role="list"
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
     >
-      {filteredProjectList.map(item => (
+      {filterdProjectList.map((item) => (
         <li
           key={`${item.uniqueId}/${item.address}}`}
           className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-2xl bg-white text-center shadow"
@@ -114,7 +112,7 @@ const ProjectCard = () => {
             </div>
             <Action
               projectId={item.uniqueId}
-              projectList={filteredProjectList}
+              projectList={filterdProjectList}
             />
           </div>
         </li>
