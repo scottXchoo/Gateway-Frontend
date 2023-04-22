@@ -11,6 +11,9 @@ export const useActionTx = (projectList: ProjectType[]) => {
   const [actionResults, setActionResults] = useState<string[]>(
     Array(projectList.length + 1).fill("")
   );
+  const [projectReqIds, setProjectReqIds] = useState<number[]>(
+    Array(projectList.length + 1).fill(0)
+  );
 
   const executeAction = useCallback(
     async (walletAddress: string, projectId: number, input: string) => {
@@ -29,13 +32,39 @@ export const useActionTx = (projectList: ProjectType[]) => {
         "auto"
       );
 
+      console.log("TxResult", result);
+
       if (result) {
+        const projectInfoResult = await copyClient?.queryContractSmart(
+          ContractInfo.contractAddr,
+          {
+            ProjectInfo: {
+              id: projectId,
+            },
+          }
+        );
+
+        console.log(projectInfoResult);
+
+        if (projectInfoResult) {
+          const newReqIds = [...projectReqIds];
+          // const reqId = projectInfoResult.result[0].req_id;
+          // newReqIds[projectId] = reqId;
+
+          // console.log("projectInfoResult", projectInfoResult);
+          // console.log("newReqIds", newReqIds);
+
+          // setProjectReqIds(newReqIds);
+        } else {
+          console.error("Error Query ProjectInfo");
+        }
+
         const resultQuery = await copyClient?.queryContractSmart(
           ContractInfo.contractAddr,
           {
             ResultInfo: {
-              id: projectId,
-              req_id: projectId,
+              id: projectId - 1,
+              req_id: 3,
             },
           }
         );
@@ -52,9 +81,10 @@ export const useActionTx = (projectList: ProjectType[]) => {
       } else {
         console.error("Error Tx");
       }
+
       return result;
     },
-    [cwClient, userAddress, actionResults]
+    [cwClient, userAddress, actionResults, projectReqIds]
   );
 
   return { executeAction, actionResults };

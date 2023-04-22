@@ -19,6 +19,8 @@ const Action = ({ projectId, projectList }: ActionProps) => {
   const [actionStates, setActionStates] = useState<boolean[]>([false]);
   const { executeAction, actionResults } = useActionTx(projectList);
 
+  console.log("actionResults", actionResults);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -46,7 +48,7 @@ const Action = ({ projectId, projectList }: ActionProps) => {
         <InputHeader className="text-left">🔎 Action Input</InputHeader>
         <InputBox>
           <Input
-            onChange={(e) => handleChange(e, projectId)}
+            onChange={e => handleChange(e, projectId)}
             placeholder="Action this project!"
             value={inputValues[projectId]}
             type="text"

@@ -33,12 +33,12 @@ const projectList: ProjectType[] = [
       "https://raw.githubusercontent.com/D3LAB-DAO/gateway-backend/main/examples/auto_drawing.js",
   },
   {
-    uniqueId: 3,
+    uniqueId: 22,
     description:
       "Adrenaline-pumping virtual reality gun shooting game that transports you to a thrilling world of action and adventure.",
     address: "archway1zk645ch525zrdgwfzmrq57x4urgmqk65n65v6q",
     githubLink:
-      "https://raw.githubusercontent.com/D3LAB-DAO/gateway-backend/main/examples/vr_game.js",
+      "https://raw.githubusercontent.com/D3LAB-DAO/gateway-backend/main/examples/chat.js",
   },
 ];
 
@@ -59,6 +59,8 @@ const ProjectCard = () => {
   }, [projectId]);
 
   if (newProjectInfo) projectList.push(newProjectInfo);
+
+  console.log("projectList", projectList);
 
   const filteredProjectList = removeDuplicateArray(projectList, "uniqueId");
 
